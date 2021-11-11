@@ -1,7 +1,22 @@
 import Head from 'next/head'
-import Layout from '../Components/Layout';
+import Layout from '../Components/Layout'
+import CardMedia from '../Components/CardMedia';
+import data from '../data';
+import { 
+  GridContainer,
+  Grid,
+  Card, 
+  CardActionArea,
+  CardContent,
+  CardActions,
+  Title,
+  Button,
+} from '../styles/Home/home';
 
 const Home:React.FC = () => {
+
+  const dataItems = data;
+
   return (
     <div>
       <Head>
@@ -13,14 +28,28 @@ const Home:React.FC = () => {
       <main>
         <Layout>
           <div>
-            <ul>
-              <li>
-                <a href="">link</a>
-              </li>
-              <li>
-                <a href="">link</a>
-              </li>
-            </ul>
+            <h1 style={{marginLeft: 100, marginTop: 30, fontWeight: 'bold'}}>Products</h1>
+            <GridContainer>
+                {dataItems.products.map((item, index) => (
+                  <Grid key={index}>
+                    <Card>
+                      <CardActionArea>
+                        <CardMedia 
+                          title={item.name}
+                          image={item.image}
+                        />
+                        <CardContent>
+                          <Title>{item.name}</Title>
+                        </CardContent>
+                        <CardActions>
+                          <Title>${item.price}</Title>
+                          <Button>Buy Now</Button>
+                        </CardActions>
+                      </CardActionArea>
+                    </Card>
+                  </Grid>
+                ))}
+            </GridContainer>
           </div>
         </Layout>
       </main>

@@ -11,3 +11,10 @@ export const Container = styled.header`
 export const Title = styled.h3`
     font-size: 2em;
 `;
+
+export const Link = styled.a`
+    &:hover {
+        cursor: pointer;
+        border-bottom: 3px solid #f9f9f9;
+    }
+`;
