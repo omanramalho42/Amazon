@@ -22,7 +22,8 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    // "src/utils/db.js", "src/pages/api/products/index.js"  ],
   ],
   "exclude": [
     "node_modules"

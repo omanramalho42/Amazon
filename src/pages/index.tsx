@@ -1,10 +1,13 @@
-import Head from 'next/head'
+import React from 'react'
+
+import { GetServerSideProps } from 'next'
 import NextLink from 'next/link'
 
-import Layout from '../Components/Layout'
-import CardMedia from '../Components/CardMedia';
+import db from '../utils/db'
+import Product from '../../models/Product'
 
-import data from '../utils/data';
+import Layout from '../Components/Layout'
+import CardMedia from '../Components/CardMedia'
 
 import { 
   GridContainer,
@@ -16,11 +19,10 @@ import {
   Title,
   Button,
   Welcome,
-} from '../styles/Home/home';
+} from '../styles/Home/home'
 
-const Home:React.FC = () => {
-
-  const dataItems = data;
+const Home = ({ products }) => {
+  // const { products } = props;
 
   return (
     <div>
@@ -29,10 +31,10 @@ const Home:React.FC = () => {
           <div>
             <Welcome>Products</Welcome>
             <GridContainer>
-                {dataItems.products.map((item, index) => (
+                {products.map((item, index) => (
                   <Grid key={index}>
                     <Card>
-                      <NextLink href={`/product/${item.slug}`} passHref>
+                      <NextLink href={`/produto/${item.slug}`} passHref>
                         <CardActionArea>
                           <CardMedia 
                             title={item.name}
@@ -59,3 +61,15 @@ const Home:React.FC = () => {
 }
 
 export default Home;
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  await db.connect();
+  const products = await Product.find({}).lean();
+  await db.disconnect();
+
+  return {
+    props: {
+      products: products.map(db.convertDocToObj),
+    }
+  }
+}

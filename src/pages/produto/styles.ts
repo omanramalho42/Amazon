@@ -94,6 +94,13 @@ export const Image = styled.img`
     height: 100%;
 `;
 
+export const TextInfo = styled.h4`
+    font-size: 1em;
+    font-weight: 400;
+    color: ${({theme}) => theme.colors.text};
+    padding: 10px;
+`;
+
 export const Text = styled.h4`
     padding: 5px;
     color: ${({theme}) => theme.colors.text};
