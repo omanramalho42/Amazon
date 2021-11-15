@@ -1,10 +1,10 @@
 import React from "react";
-import { Container } from './styles'
+import { Container, Copyright } from './styles'
 
 const Footer:React.FC = () => {
     return(
         <Container>
-            Footer
+            <Copyright>Todos os direitos reservado Amazon</Copyright>
         </Container>
     );
 }

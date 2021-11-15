@@ -3,7 +3,7 @@ import { AiOutlineClose } from 'react-icons/ai'
 
 export const Container = styled.div`
     padding: 50px 100px;
-    height: 100%;
+    min-height: 100vh
 `;
 
 export const Title = styled.h1`
@@ -22,6 +22,19 @@ export const Text = styled.h4`
     font-weight: 400;
 
     color: ${({ theme }) => theme.colors.text};
+`;
+
+export const ContentInfo = styled.div`
+    margin-top: 20px;
+    width: 120px;
+    height: calc(100vh - 300px);
+`;
+
+export const TextLink = styled.h4`
+    color: ${({theme}) => theme.colors.effect};
+    &:hover {
+        color: ${({theme}) => theme.colors.effect_secondary};
+    }
 `;
 
 export const CartItem = styled.div`

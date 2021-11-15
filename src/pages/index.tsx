@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 import { GetServerSideProps } from 'next'
 import NextLink from 'next/link'
+
+import axios from 'axios'
 
 import db from '../utils/db'
 import Product from '../../models/Product'
@@ -20,9 +22,32 @@ import {
   Button,
   Welcome,
 } from '../styles/Home/home'
+import { Store } from '../store/Store'
+import { useRouter } from 'next/router'
 
 const Home = ({ products }) => {
- 
+  const { state, dispatch } = useContext(Store); 
+  const router = useRouter();
+
+  const handleAddCart = async (product) => {
+    const { data } = await axios.get(`/api/products/${product._id}`)
+    
+    if(data.countInStock <= 0) {
+        window.alert('Sorry. Product is out of stock');
+    }
+    
+    const existItem = state.cart.cartItems.find(x => x._id === product._id);
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+
+    if(data.countInStock < quantity) {
+        window.alert('Sorry. Product is max of stock');
+        return
+    }
+
+    dispatch({ type: 'CART_ADD_ITEM', payload: {...product, quantity } })
+    router.push('/shop');
+  }
+
   return (
     <div>
       <main>
@@ -44,7 +69,7 @@ const Home = ({ products }) => {
                           </CardContent>
                           <CardActions>
                             <Title>${item.price}</Title>
-                            <Button>Buy Now</Button>
+                            <Button onClick={() => handleAddCart(item)}>Buy Now</Button>
                           </CardActions>
                         </CardActionArea>
                       </NextLink>

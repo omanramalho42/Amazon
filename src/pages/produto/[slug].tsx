@@ -50,15 +50,22 @@ const Produto = ({ product }) => {
     }
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { dispatch } = useContext(Store);
+    const { state, dispatch } = useContext(Store);
 
     const handleAddCart = async () => {
         const { data } = await axios.get(`/api/products/${product._id}`)
-        console.log(data);
         if(data.countInStock <= 0) {
             window.alert('Sorry. Product is out of stock');
+            return
         }
-        dispatch({ type: 'CART_ADD_ITEM', payload: {...product, quantity: 1 } })
+        const existItem = state.cart.cartItems.find(x => x._id === product._id);
+        const quantity = existItem ? existItem.quantity + 1 : 1;
+
+        if(data.countInStock < quantity) {
+            window.alert('Sorry. Product is max of stock');
+            return
+        }
+        dispatch({ type: 'CART_ADD_ITEM', payload: {...product, quantity } })
         router.push('/shop');
     }
     return(

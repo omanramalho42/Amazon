@@ -20,31 +20,54 @@ import {
     CardAction,
     Quantity,
     Link,
+    ContentInfo,
     ButtonClose,
     Total,
     TotalContent,
     Value,
     Strong,
     IconClose,
+    TextLink
 } from './styles'
+import axios from 'axios'
 
 const Shop:React.FC = () => {
-    const { state } = useContext(Store); 
+    const { state, dispatch } = useContext(Store); 
     const { cart } = state;
     
+    const handleUpdateCart = async (item, quantity) => {
+        const { data } = await axios.get(`/api/products/${item._id}`)
+        if(data.countInStock <= 0) {
+            window.alert('Sorry. Product is out of stock');
+            return
+        }
+        if(data.countInStock < quantity) {
+            window.alert('Sorry. Product is max of stock');
+            return
+        }
+        dispatch({ type: 'CART_ADD_ITEM', payload: {...item, quantity } })
+    }
+
+    const handleRemoveItem = (item) => {
+        dispatch({ type: 'CART_REMOVE_ITEM', payload: item })
+    }
+
     return(
         <Layout title="Shopping Cart" description="Cart">
-            <>
+            <Container>
                 <Title>Shopping Cart</Title>
                 {cart.cartItems === 0 ? (
-                    <Container> 
+                    <ContentInfo>
                         <Text style={{marginBottom: 10}}>Carrinho vazio</Text>
                         <NextLink href="/" passHref>
-                            <Text style={{fontWeight: 'bold'}}>Go Shopping</Text>
+                            <Link>
+                                <TextLink>Go Shopping</TextLink>
+                            </Link>
                         </NextLink>
-                    </Container> 
+                    </ContentInfo>
+ 
                     ) : (
-                    <Container>
+                    <>
                         {cart.cartItems.map((item) => (
                             <CartItem key={item._id}>
                                 <ContainerImage>
@@ -64,6 +87,7 @@ const Shop:React.FC = () => {
                                         <Select 
                                             value={item.quantity}
                                             style={{ marginTop: 20}}
+                                            onChange={(e) => handleUpdateCart(item, e.target.value)}
                                         >
                                             {[...Array(item.countInStock).keys()].map((x) => (
                                                 <MenuItem key={x + 1} value={x + 1}>
@@ -72,7 +96,7 @@ const Shop:React.FC = () => {
                                             ))}
                                         </Select>
                                     </Quantity>
-                                    <ButtonClose>
+                                    <ButtonClose onClick={() => handleRemoveItem(item)}>
                                         <IconClose />
                                     </ButtonClose>
                                 </CardAction>   
@@ -89,9 +113,9 @@ const Shop:React.FC = () => {
                             </Value>
                         </TotalContent>
                     </Total>
-                </Container>
+                </>
                 )}
-            </>
+            </Container>
         </Layout>
     )
 }
