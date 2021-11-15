@@ -59,3 +59,25 @@ export const Nav = styled.nav`
     align-items: center;
     display: flex;
 `;
+
+export const Content = styled.div``;
+
+export const Badge = styled.div`
+    background-color: ${({ theme }) => theme.colors.effect};
+    border-radius: 25px;
+
+    width: 20px;
+    height: 20px;
+
+    transition: 0.2s;
+    &:hover {
+        transform: scale(1.1);
+        background-color: ${({theme}) => theme.colors.effect_secondary};
+    }
+`;
+
+export const Notification = styled.h5`
+    margin-top: 1.5px;
+    text-align: center;
+    color: ${({theme}) => theme.colors.text};
+`;

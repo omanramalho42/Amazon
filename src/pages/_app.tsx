@@ -1,5 +1,6 @@
 import React from "react"
 import { ThemeProvider } from 'styled-components'
+import { StoreProvider } from "../store/Store"
 import GlobalStyle from '../styles/global'
 import { light } from '../styles/theme/index'
 
@@ -8,8 +9,10 @@ import { light } from '../styles/theme/index'
 function MyApp({ Component, pageProps }) {
   return (
     <ThemeProvider theme={light}>
-      <GlobalStyle />
-      <Component {...pageProps} />
+      <StoreProvider>
+        <GlobalStyle />
+        <Component {...pageProps} />
+      </StoreProvider>
     </ThemeProvider>
   ) 
   

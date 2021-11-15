@@ -1,13 +1,16 @@
-import React from 'react'
+import React, { useContext } from "react"
 
 import NextLink from 'next/link'
 import { GetServerSideProps } from 'next'
+import { useRouter } from "next/router"
 
-import { useRouter } from 'next/router'
-
+import axios from 'axios'
+import { Store } from '../../store/Store'
 import Product from '../../../models/Product'
 import db from '../../utils/db'
-import data from '../../utils/data'
+
+// import data from '../../utils/data'
+// import { useRouter } from 'next/router'
 
 import Layout from '../../Components/Layout'
 
@@ -27,21 +30,8 @@ import {
     Return
 } from './styles'
 
-interface ProdutoProps {
-    name: string,
-    slug: string,
-    category: string,
-    image: string,
-    price: number,
-    brand: string,
-    rating: number,
-    numReviews: number,
-    countInStock: number,
-    description: string,
-}
-
 const Produto = ({ product }) => {
-    
+    const router = useRouter();    
     //INICIALIZANDO A BIBLIOTECA USEROUTER DO NEXT E ATRIBUINDO A UMA CONSTANTE
    // const router = useRouter();
     //DESESTRUTURANDO O SLUG QUE É LOCALIZADO ATRAVES
@@ -58,7 +48,19 @@ const Produto = ({ product }) => {
         //ENTAO RETORNE UM AVISO QUE ESTE PRODUTO NÃO FOI ACHADO
         return <Container>Product Not found</Container>
     }
-    //CASO CONTRARIO
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { dispatch } = useContext(Store);
+
+    const handleAddCart = async () => {
+        const { data } = await axios.get(`/api/products/${product._id}`)
+        console.log(data);
+        if(data.countInStock <= 0) {
+            window.alert('Sorry. Product is out of stock');
+        }
+        dispatch({ type: 'CART_ADD_ITEM', payload: {...product, quantity: 1 } })
+        router.push('/shop');
+    }
     return(
         //RETORNE A RENDERIZAÇÃO DA PÁGINA DE VISUALIZAÇÃO DO ITEM ESPECIFICO
         <Layout 
@@ -101,7 +103,7 @@ const Produto = ({ product }) => {
                                 
                             </Price>
                         </Content>
-                        <Button>Add to cart</Button>
+                        <Button onClick={handleAddCart}>Add to cart</Button>
                     </CardBuy>
                 </ContainerProduct>
             </Container>

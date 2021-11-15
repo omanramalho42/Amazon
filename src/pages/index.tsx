@@ -22,8 +22,7 @@ import {
 } from '../styles/Home/home'
 
 const Home = ({ products }) => {
-  // const { products } = props;
-
+ 
   return (
     <div>
       <main>
