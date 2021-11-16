@@ -15,6 +15,7 @@ declare module 'styled-components' {
             background:string;
             shadow: string;
 
+            input: string;
             info: string;
             warning: string;
             danger: string;

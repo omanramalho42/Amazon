@@ -11,7 +11,8 @@ export default {
         background: '#f9f9f9',
         text: '#171717',
         shadow: 'rgba(0,0,0,0.25)',
-  
+        
+        input: '#f7f7f7',
         info: '#0096FF',
         warning: '#fca11a',
         success: '#019707',

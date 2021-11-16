@@ -7,7 +7,6 @@ export const Container = styled.div`
 `;
 
 export const Title = styled.h1`
-    padding: 0 100px;
     font-family: 'Montserrat';
     text-transform: uppercase;
     font-weight: bold;
@@ -16,6 +15,7 @@ export const Title = styled.h1`
     
     color: ${({ theme }) => theme.colors.text};
     margin-top: 20px;
+    margin-bottom: 30px;
 `;
 export const Text = styled.h4`
     font-family: 'Montserrat';
@@ -111,6 +111,19 @@ export const ButtonClose = styled.button`
 
     &:hover {
         background-color: ${({theme}) => theme.colors.effect};
+    }
+`;
+
+export const Button = styled.button`
+    border: none;
+    display: flex;
+    padding: 20px;
+    border-radius: 15px;
+    background-color: ${({theme}) => theme.colors.effect};
+    transition: background-color 0.2s;
+
+    &:hover {
+        background-color: ${({theme}) => theme.colors.effect_secondary};
     }
 `;
 

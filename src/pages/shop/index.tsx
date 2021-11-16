@@ -27,9 +27,11 @@ import {
     Value,
     Strong,
     IconClose,
-    TextLink
+    TextLink,
+    Button
 } from './styles'
 import axios from 'axios'
+import router from 'next/router'
 
 const Shop:React.FC = () => {
     const { state, dispatch } = useContext(Store); 
@@ -50,6 +52,10 @@ const Shop:React.FC = () => {
 
     const handleRemoveItem = (item) => {
         dispatch({ type: 'CART_REMOVE_ITEM', payload: item })
+    }
+
+    const handleChecked = () => {
+        router.push('/login');
     }
 
     return(
@@ -105,6 +111,7 @@ const Shop:React.FC = () => {
                     <Total>
                         <TotalContent>
                             <Strong>Subtotal</Strong>
+                            <Button onClick={handleChecked}>Payament</Button>
                             <Value>
                                 ( {cart.cartItems.reduce((a,c) => 
                                     a + c.quantity, 0
