@@ -1,12 +1,13 @@
 import React, { useContext } from 'react'
-
-import { GetServerSideProps } from 'next'
 import NextLink from 'next/link'
 
 import axios from 'axios'
 
 import db from '../utils/db'
 import Product from '../../models/Product'
+
+import { Store } from '../store/Store'
+import { useRouter } from 'next/router'
 
 import Layout from '../Components/Layout'
 import CardMedia from '../Components/CardMedia'
@@ -22,8 +23,6 @@ import {
   Button,
   Welcome,
 } from '../styles/Home/home'
-import { Store } from '../store/Store'
-import { useRouter } from 'next/router'
 
 const Home = ({ products }) => {
   const { state, dispatch } = useContext(Store); 
@@ -45,18 +44,19 @@ const Home = ({ products }) => {
     }
 
     dispatch({ type: 'CART_ADD_ITEM', payload: {...product, quantity } })
-    router.push('/shop');
+    router.push('/cart');
   }
-
   return (
-    <div>
-      <main>
+    <>
+      <>
         <Layout title="HomePage" description="Home">
-          <div>
+          <>
             <Welcome>Products</Welcome>
             <GridContainer>
                 {products.map((item, index) => (
-                  <Grid key={index}>
+                  <Grid 
+                    key={index}
+                  >
                     <Card>
                       <NextLink href={`/produto/${item.slug}`} passHref>
                         <CardActionArea>
@@ -77,16 +77,16 @@ const Home = ({ products }) => {
                   </Grid>
                 ))}
             </GridContainer>
-          </div>
+          </>
         </Layout>
-      </main>
-    </div>
+      </>
+    </>
   )
 }
 
 export default Home;
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps = async () => {
   await db.connect();
   const products = await Product.find({}).lean();
   await db.disconnect();

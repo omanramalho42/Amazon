@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import dark from '../theme/dark';
 
 export const GridContainer = styled.div`
     display: grid;
@@ -33,9 +34,13 @@ export const Grid = styled.div`
     border-radius: 0 0 15px 15px;
 
     transition: 0.2s;
+
     &:hover {
         transform: scale(1.05);
         opacity: 0.9;
+        box-shadow: 0 0 16px 3px ${({ theme }) => 
+            theme.colors.effect
+        };
     }
 `;
 

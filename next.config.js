@@ -4,6 +4,6 @@ module.exports = withImages({
     esModule: true,
 })
 
-// module.exports = {
-//   reactStrictMode: true,
-// }
+module.exports = {
+  reactStrictMode: true,
+}

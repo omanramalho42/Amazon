@@ -1,9 +1,14 @@
 import React, { useContext } from 'react'
+
 import NextLink from 'next/link'
 import dynamic from 'next/dynamic'
 
-import Layout from '../../Components/Layout'
-import { Store } from '../../store/Store'
+import axios from 'axios'
+import router from 'next/router'
+
+import { Store } from '../store/Store'
+
+import Layout from '../Components/Layout'
 
 import { Select, MenuItem } from '@material-ui/core';
 
@@ -29,11 +34,9 @@ import {
     IconClose,
     TextLink,
     Button
-} from './styles'
-import axios from 'axios'
-import router from 'next/router'
+} from '../styles/Shop/styles'
 
-const Shop:React.FC = () => {
+const Shop = () => {
     const { state, dispatch } = useContext(Store); 
     const { cart } = state;
     
@@ -55,7 +58,7 @@ const Shop:React.FC = () => {
     }
 
     const handleChecked = () => {
-        router.push('/login');
+        router.push('/shipping');
     }
 
     return(

@@ -11,6 +11,7 @@
     "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
+    "downlevelIteration": true,
     "incremental": true,
     "esModuleInterop": true,
     "module": "esnext",
@@ -19,10 +20,11 @@
     "isolatedModules": true,
     "jsx": "preserve"
   },
+  
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx",
+    "**/*.tsx", "**/*.jsx", "src/pages/produto/[slug].tsx", "src/pages/order/[id].jsx", "src/pages/search.jsx" 
     // "src/utils/db.js", "src/pages/api/products/index.js"  ],
   ],
   "exclude": [

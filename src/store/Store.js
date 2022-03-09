@@ -1,13 +1,24 @@
-import { createContext, useReducer } from 'react'
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
+import { createContext, useReducer } from 'react';
 
 export const Store = createContext();
-
 const initialState = {
+    // darkMode: Cookies.get('darkMode') === 'ON' ? true : false,
     cart: {
-        cartItems: Cookies.get('cartItems') ? JSON.parse(Cookies.get('cartItems')): [],
-    }
-}
+      cartItems: Cookies.get('cartItems')
+        ? JSON.parse(Cookies.get('cartItems'))
+        : [],
+      shippingAddress: Cookies.get('shippingAddress')
+        ? JSON.parse(Cookies.get('shippingAddress'))
+        : { location: {} },
+      paymentMethod: Cookies.get('paymentMethod')
+        ? Cookies.get('paymentMethod')
+        : '',
+    },
+    userInfo: Cookies.get('userInfo')
+      ? JSON.parse(Cookies.get('userInfo'))
+      : null,
+  };
 
 function reducer(state, action) {
     switch(action.type) {
@@ -31,6 +42,49 @@ function reducer(state, action) {
             Cookies.set('cartItems', JSON.stringify(cartItems));
             return {...state, cart: {...state.cart, cartItems } };
         }
+        case 'SAVE_SHIPPING_ADDRESS':
+            return {
+              ...state,
+              cart: {
+                ...state.cart,
+                shippingAddress: {
+                  ...state.cart.shippingAddress,
+                  ...action.payload,
+                },
+              },
+            };
+        case 'SAVE_SHIPPING_ADDRESS_MAP_LOCATION':
+            return {
+                ...state,
+                cart: {
+                    ...state.cart,
+                    shippingAddress: {
+                        ...state.cart.shippingAddress,
+                        location: action.payload,
+                    },
+                },
+            };
+        case 'SAVE_PAYAMENT_METHOD': {
+            return {
+                ...state, 
+                cart: { ...state.cart, payamentMethod: action.payload } ,
+            }
+        }
+        case 'CART_CLEAR': 
+            return {...state, cart: {...state.cart, cartItems: [] } }
+        case 'USER_LOGIN': {
+            return {...state, userInfo: action.payload }
+        }
+        case 'USER_LOGOUT':
+            return {
+                ...state,
+                userInfo: null,
+                cart: {
+                    cartItems: [],
+                    shippingAddress: { location: {} },
+                    paymentMethod: '',
+                },
+            };
         default: 
             return state;
     }

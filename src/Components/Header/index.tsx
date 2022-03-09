@@ -1,20 +1,25 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import NextLink from 'next/link'
-
 import { Store } from "../../store/Store"
-
 import { 
     Container,
     Button,
+    UserButton,
+    Content,
     Link,
     Nav,
     Title,
     Icon,
     Badge,
-    Notification
+    IconCart,
+    Notification,
+    CartContainer,
+    Image
 } from './styles'
 
 import Logo from '../../assets/logo.svg'
+
+import ModalProfile from "../_ModalProfile"
 
 interface Props {
     theme: string;
@@ -22,20 +27,48 @@ interface Props {
 }
 
 const Header = ({ themeToggler, theme }: Props) => {
+    // const [removeCookie] = useCookies(['cartItems']);
+    const [openProfile, setOpenProfile] = useState(false);
+    // const { dispatch } = useContext(Store);
+    const handleOpenModal = () => {
+        setOpenProfile(!openProfile);
+    }
+
+    const handleOnMouseLeave = () => {
+        if(window.innerWidth < 460) {
+            setOpenProfile(true);
+        } else {
+            setOpenProfile(false);
+        }
+    }
+ 
     const Moon = '/images/moon.png'
     const Sun = '/images/sun.png'
+    const logoDark = '/images/logo.png'
 
-    const { state, dispatch } = useContext(Store)
-    const { cart } = state; 
+    const { state } = useContext(Store);
+    const { cart, userInfo } = state;
 
     return(
         <Container>
             <NextLink href="/" passHref>
                 <Link>
-                    <Logo style={{width: 100, height: 50}}/>
+                    {theme === 'dark' ? ( 
+                        <Image src={logoDark} alt="Amazon"/>
+                        ) : (
+                            <Logo 
+                                style={{
+                                    width: 100, 
+                                    height: 50
+                                }} 
+                            />
+                        )}
                 </Link>
             </NextLink>
-            <Button onClick={themeToggler} >
+            <Button 
+                onClick={themeToggler} 
+                active={theme}
+            >
                 {theme === 'light' ? 
                     <Icon src={Moon} thema={theme}/> 
                     : 
@@ -43,17 +76,41 @@ const Header = ({ themeToggler, theme }: Props) => {
                 }
             </Button>
             <Nav>
-                <NextLink href="/shop" passHref>
-                    {cart.cartItems.length > 0 ?
-                        <Badge>
-                            <Notification>{cart.cartItems.length}</Notification>
-                        </Badge>
-                        :  <Title>Cart</Title>
-                    }
-                </NextLink>
-                <NextLink href="/login">
-                    <Title>Login</Title>
-                </NextLink>
+                <Content>
+                    <NextLink href="/cart" passHref>
+                        {cart.cartItems.length > 0 ?
+                            <CartContainer>
+                                <Badge>
+                                    <Notification>{cart.cartItems.length}</Notification>
+                                </Badge>
+                                <IconCart />
+                            </CartContainer>
+                            :  <Title>Cart</Title>
+                        }
+                    </NextLink>
+                    { userInfo ? ( 
+                        <UserButton
+                            onClick={() => handleOpenModal()}
+                            user="user"
+                        >
+                            <Title>
+                                {userInfo.name}
+                            </Title>
+                        </UserButton>
+                    ) : (
+                        <NextLink href="/login">
+                            <Title>Login</Title>
+                        </NextLink>
+                    )}
+                    { openProfile ? (
+                        <ModalProfile
+                            onLeave={handleOnMouseLeave}
+                            isActive={openProfile}
+                        />
+                    ) : (
+                        <></>
+                    )}
+                </Content>
             </Nav>
         </Container>
     );

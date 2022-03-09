@@ -1,9 +1,31 @@
-import styled from 'styled-components'
+import styled, { ThemeConsumer } from 'styled-components'
 import { AiOutlineClose } from 'react-icons/ai'
 
 export const Container = styled.div`
     padding: 50px 100px;
-    min-height: 100vh
+    min-height: 100vh;
+`;
+
+export const Cart = styled.div`
+    display: flex;
+    flex-direction: column;
+
+    min-width: 410px;
+    
+    border-radius: 25px;
+
+    padding: 20px;
+    margin-top: 15px;
+    box-shadow: 0 0 12px 5px rgba(0,0,0,.2);
+
+`;
+
+export const Price = styled.div`
+    display: flex;
+
+    padding: 10px;
+
+    color: ${({theme}) => theme.colors.text};
 `;
 
 export const Title = styled.h1`
@@ -17,10 +39,27 @@ export const Title = styled.h1`
     margin-top: 20px;
     margin-bottom: 30px;
 `;
-export const Text = styled.h4`
-    font-family: 'Montserrat';
-    font-weight: 400;
 
+interface TextError {
+    error?: boolean;
+}
+
+export const Text = styled.h4<TextError>`
+    font-family: 'Montserrat';
+    
+    text-transform: uppercase;
+    font-weight: 600;
+    
+    color: ${({ theme, error }) => !error ? theme.colors.text : theme.colors.danger};
+`;
+
+export const TextButton = styled.h4`
+    font-family: 'Montserrat';
+    
+    text-transform: uppercase;
+    font-weight: 600;
+    
+    margin: auto;
     color: ${({ theme }) => theme.colors.text};
 `;
 
@@ -55,21 +94,25 @@ export const Image = styled.img`
     width: 200px;
     height: 200px;
     border-radius: 25px;
+
+    transition: 0.325s;
+    
+    &:hover {
+        box-shadow: 0 0 12px 2px rgba(80,80,80,0.8);
+        transform: scale(1.05);
+    }
 `;
 
 export const Content = styled.div`
     flex: 1;
     display: flex;
     flex-direction: column;
+
+    margin-left: 10px;
     padding: 10px;
 `;
 
 export const Paragraph = styled.p`
-    color: ${({ theme }) => theme.colors.text};
-`;
-
-export const Raiting = styled.h5`
-    margin: 20px;
     color: ${({ theme }) => theme.colors.text};
 `;
 
@@ -79,51 +122,25 @@ export const Link = styled.a`
 
 export const CardAction = styled.div`
     display: flex;
-`;
-
-export const Quantity = styled.div`
-    width: 50px;
-    height: 80px;
-    border: none;
-    
-    text-align: center;
-    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
-    
-    background-color: ${({theme}) => theme.colors.primary};
-    border-radius: 10px;
-    margin-right: 10px;
-
-    &:hover {
-        background-color: ${({theme}) => theme.colors.effect};
-    }
-`;
-
-export const ButtonClose = styled.button`
-    width: 50px;
-    height: 80px;
-    border: none;
-    
-    text-align: center;
-    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
-    
-    background-color: ${({theme}) => theme.colors.primary};
-    border-radius: 10px;
-
-    &:hover {
-        background-color: ${({theme}) => theme.colors.effect};
-    }
+    flex-direction: column;
+    color: ${({theme}) => theme.colors.text};
 `;
 
 export const Button = styled.button`
-    border: none;
     display: flex;
+
+    border: none;
     padding: 20px;
+    
     border-radius: 15px;
     background-color: ${({theme}) => theme.colors.effect};
-    transition: background-color 0.2s;
 
+    margin-top: 10px;
+
+    transition: background-color 0.325s;
     &:hover {
         background-color: ${({theme}) => theme.colors.effect_secondary};
+        box-shadow: 0 0 15px 3px ${({theme}) => theme.colors.effect_secondary};
     }
 `;
 
@@ -133,20 +150,35 @@ export const IconClose = styled(AiOutlineClose)`
 `;
 
 export const Total = styled.div`
+    display: flex;
     margin-top: 20px;
-    /* border-top: 0.7px solid ${({ theme }) => theme.colors.secondary}; */
+
+    justify-content: center;
 `;
 
 export const TotalContent = styled.div`
     display: flex;
+    flex-direction: column;
+
+    width: 500px;
+
     margin-top: 20px;
-    justify-content: space-between;
+    border-radius: 25px;
+    
+    padding: 20px;
+    box-shadow: 0 0 12px 5px rgba(0,0,0,.2);
 `;
 
-export const Value = styled.h5`
+export const Value = styled.div`
+    display: flex;
+    padding: 15px;
+
     font-size: 0.9em;
     font-weight: bold;
     font-family: 'Montserrat';
+
+    justify-content: space-between;
+
     color: ${({ theme }) => theme.colors.text};
 `;
 
@@ -154,7 +186,9 @@ export const Strong = styled.strong`
     font-weight: bold;
     font-family: 'Montserrat';
     font-size: 1em;
-    text-align: start;
+    margin: auto;
+    
     text-transform: uppercase;
-    color: ${({ theme }) => theme.colors.text};
+    
+    color: ${({ theme }) => theme.colors.effect};
 `;

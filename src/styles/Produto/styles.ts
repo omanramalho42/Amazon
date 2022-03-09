@@ -26,9 +26,15 @@ export const ContainerProduct = styled.div`
 `;
 
 export const Return = styled.h3`
+    width: 200px;
+    margin-top: 10px;
     padding: 10px;
     cursor: pointer;
     color: ${({theme}) => theme.colors.text};
+
+    &:hover {
+        color: ${({theme}) => theme.colors.effect};
+    }
 `;
 
 export const ContentImage = styled.div`
@@ -104,6 +110,14 @@ export const TextInfo = styled.h4`
 export const Text = styled.h4`
     padding: 5px;
     color: ${({theme}) => theme.colors.text};
+    font-weight: 500;
+
+    transition: 0.525s;
+
+    &:hover {
+        font-weight: 520;
+        color: ${({theme}) => theme.colors.secondary};
+    }
 `;
 
 export const Status = styled.div`
@@ -131,5 +145,6 @@ export const Button = styled.button`
 
     &:hover {
         background-color: ${({theme}) => theme.colors.effect_secondary};
+        box-shadow: 0 0 8px 3px ${({theme}) => theme.colors.effect_secondary};
     }
 `;

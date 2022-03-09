@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const Container = styled.div`
     padding: 0 100px;
@@ -19,6 +19,7 @@ export const Title = styled.h3`
 export const Text = styled.h5`
     font-size: 1em;
     font-weight: 600;
+
     color: ${({theme}) => theme.colors.text};
 `;
 
@@ -35,7 +36,11 @@ export const Form = styled.form`
     width: 700px;
 `;
 
-export const Input = styled.input`
+interface InputProps {
+    error: boolean;
+}
+
+export const Input = styled.input<InputProps>`
     display: flex;
     border: none;
     
@@ -46,10 +51,18 @@ export const Input = styled.input`
     background-color: ${({theme}) => theme.colors.input};
     border: 2px solid ${({theme}) => theme.colors.text};
 
+    transition: 0.325s;
     &:hover {
-        border: 2px solid ${({theme}) => 
-            theme.colors.effect
-        };   
+        box-shadow: 0 0 12px 2px ${({theme, error}) => 
+            error 
+            ? theme.colors.danger
+            : theme.colors.effect
+        };
+        border: 2px solid ${({theme, error}) =>
+            error 
+            ? theme.colors.danger 
+            : theme.colors.effect
+        };
     }
 `;
 
@@ -65,18 +78,6 @@ export const Button = styled.button`
     
     &:hover {
         background-color: ${({theme}) => theme.colors.effect_secondary};
-    }
-`;
-
-export const Label = styled.label`
-    text-align: center;
-`;
-
-export const Link = styled.a`
-    text-decoration: underline;
-    color: ${({theme}) => theme.colors.effect};
-
-    &:hover {
-        color: ${({theme}) => theme.colors.effect_secondary};
+        box-shadow: 0 0 8px 3px ${({theme}) => theme.colors.effect_secondary};
     }
 `;
